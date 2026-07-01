@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Tajwid Interaktif</title>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+   
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+    <!-- Navigasi Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Pusat Tajwid</h2>
+        </div>
+
+        <div class="category-title">Nun Mati & Tanwin</div>
+        <button class="nav-btn" onclick="loadData('izhar-halqi', this)">Izhar Halqi</button>
+        <button class="nav-btn" onclick="loadData('idgham-bighunnah', this)">Idgham Bighunnah</button>
+        <button class="nav-btn" onclick="loadData('idgham-bilaghunnah', this)">Idgham Bilaghunnah</button>
+        <button class="nav-btn" onclick="loadData('iqlab', this)">Iqlab</button>
+        <button class="nav-btn" onclick="loadData('ikhfa', this)">Ikhfa Haqiqi</button>
+
+        <div class="category-title">Mim Mati</div>
+        <button class="nav-btn" onclick="loadData('ikhfa-syafawi', this)">Ikhfa Syafawi</button>
+        <button class="nav-btn" onclick="loadData('idgham-mimi', this)">Idgham Mimi</button>
+        <button class="nav-btn" onclick="loadData('izhar-syafawi', this)">Izhar Syafawi</button>
+
+        <div class="category-title">Qalqalah</div>
+        <button class="nav-btn" onclick="loadData('qalqalah-sugra', this)">Qalqalah Sugra</button>
+        <button class="nav-btn" onclick="loadData('qalqalah-kubra', this)">Qalqalah Kubra</button>
+
+        <div class="category-title">Alif Lam (Al-Ta'rif)</div>
+        <button class="nav-btn" onclick="loadData('al-syamsiyah', this)">Alif Lam Syamsiyah</button>
+        <button class="nav-btn" onclick="loadData('al-qamariyah', this)">Alif Lam Qamariyah</button>
+
+        <!-- Tambahan Baru 1: Ghunnah & Lam/Ra -->
+        <div class="category-title">Ghunnah & Lam/Ra</div>
+        <button class="nav-btn" onclick="loadData('ghunnah', this)">Ghunnah Musyaddadah</button>
+        <button class="nav-btn" onclick="loadData('lam-tafkhim', this)">Lam Tafkhim</button>
+        <button class="nav-btn" onclick="loadData('lam-tarqiq', this)">Lam Tarqiq</button>
+        <button class="nav-btn" onclick="loadData('ra-tafkhim', this)">Ra Tafkhim</button>
+        <button class="nav-btn" onclick="loadData('ra-tarqiq', this)">Ra Tarqiq</button>
+
+        <!-- Tambahan Baru 2: Idgham Lanjutan & Waqaf -->
+        <div class="category-title">Idgham Lanjutan</div>
+        <button class="nav-btn" onclick="loadData('idgham-mutamathilain', this)">Idgham Mutamathilain</button>
+        <button class="nav-btn" onclick="loadData('idgham-mutaqaribain', this)">Idgham Mutaqaribain</button>
+        <button class="nav-btn" onclick="loadData('idgham-mutajanisain', this)">Idgham Mutajanisain</button>
+
+        <!-- Tambahan Baru 3: Hukum Mad -->
+        <div class="category-title">Hukum Mad</div>
+        <button class="nav-btn" onclick="loadData('mad-thabii', this)">Mad Thabi'i</button>
+        <button class="nav-btn" onclick="loadData('mad-wajib-muttasil', this)">Mad Wajib Muttasil</button>
+        <button class="nav-btn" onclick="loadData('mad-jaiz-munfasil', this)">Mad Jaiz Munfasil</button>
+        <button class="nav-btn" onclick="loadData('mad-aridl-lissukun', this)">Mad Aridl Lissukun</button>
+        <button class="nav-btn" onclick="loadData('mad-badal', this)">Mad Badal</button>
+        <button class="nav-btn" onclick="loadData('mad-iwad', this)">Mad Iwad</button>
+        <button class="nav-btn" onclick="loadData('mad-layyin', this)">Mad Layyin</button>
+        <button class="nav-btn" onclick="loadData('mad-lazim-muthaqqal', this)">Mad Lazim Muthaqqal Kilmi</button>
+
+        <!-- Tambahan Baru 4: Mad Lanjutan -->
+        <div class="category-title">Hukum Mad (Lanjutan)</div>
+        <button class="nav-btn" onclick="loadData('mad-silah-qasirah', this)">Mad Silah Qasirah</button>
+        <button class="nav-btn" onclick="loadData('mad-silah-thawilah', this)">Mad Silah Thawilah</button>
+        <button class="nav-btn" onclick="loadData('mad-tamkin', this)">Mad Tamkin</button>
+        <button class="nav-btn" onclick="loadData('mad-farq', this)">Mad Farq</button>
+        <button class="nav-btn" onclick="loadData('mad-lazim-mukhaffaf-kilmi', this)">Mad Lazim Mukhaffaf Kilmi</button>
+        <button class="nav-btn" onclick="loadData('mad-lazim-muthaqqal-harfi', this)">Mad Lazim Muthaqqal Harfi</button>
+        <button class="nav-btn" onclick="loadData('mad-lazim-mukhaffaf-harfi', this)">Mad Lazim Mukhaffaf Harfi</button>
+    </div>
+
+    <!-- Area Konten -->
+    <div class="main-content">
+        <!-- Kartu Sambutan Awal -->
+        <div id="welcome-state" class="welcome-card">
+            <h2 style="font-size: 28px; color: var(--primary); margin-bottom: 15px;">Selamat Datang!</h2>
+            <p style="color: var(--text-light); line-height: 1.6;">Silakan pilih materi tajwid di menu sebelah kiri untuk memulai pembelajaran interaktif. Setiap materi dilengkapi dengan penjelasan, contoh ayat, dan cara melafalkannya.</p>
+        </div>
+
+        <!-- Kartu Materi (Dinamis) -->
+        <div id="content-state" class="content-card">
+            <span id="content-tag" class="tag">Kategori</span>
+            <h1 id="content-title">Judul Materi</h1>
+            <p id="content-desc">Penjelasan akan muncul di sini.</p>
+            
+            <div class="ayat-container">
+                <div id="content-ayat" class="ayat-text">Contoh Ayat</div>
+            </div>
+
+            <div class="audio-section">
+                <div class="audio-icon">🔊</div>
+                <div style="flex: 1;">
+                    <p style="font-size: 14px; font-weight: 600; margin-bottom: 5px;">Cara Melafalkan:</p>
+                    <audio id="audio-player" controls>
+                        <source id="audio-source" src="" type="audio/mpeg">
+                    </audio>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Skrip Logika Data -->
+    <script>
+        // Database Materi Tajwid
+        // Untuk menyorot huruf dengan warna merah, kita gunakan tag <span class='highlight'>huruf</span>
+        const tajwidData = {
+            // BAB: NUN MATI & TANWIN
+            'izhar-halqi': {
+                kategori: "Hukum Nun Mati & Tanwin",
+                judul: "Izhar Halqi",
+                desc: "Terjadi apabila Nun Sukun (نْ) atau Tanwin (ـً ـٍ ـٌ) bertemu dengan salah satu huruf tenggorokan (Halqi) yaitu: ء , ه , ع , ح , غ , خ. Cara membacanya harus jelas, terang, dan tanpa mendengung.",
+                ayat: "مَ<span class='highlight'>نْ أَ</span>مَنَ",
+                audio: "izhar_halqi.mp3"
+            },
+            'idgham-bighunnah': {
+                kategori: "Hukum Nun Mati & Tanwin",
+                judul: "Idgham Bighunnah",
+                desc: "Terjadi apabila Nun Sukun (نْ) atau Tanwin bertemu dengan huruf: ي , ن , م , و. Cara membacanya dengan memasukkan suara ke huruf tersebut disertai dengung (ditahan 2-3 harakat).",
+                ayat: "مَ<span class='highlight'>نْ يَ</span>قُولُ",
+                audio: "idgham_bighunnah.mp3"
+            },
+            'idgham-bilaghunnah': {
+                kategori: "Hukum Nun Mati & Tanwin",
+                judul: "Idgham Bilaghunnah",
+                desc: "Terjadi apabila Nun Sukun (نْ) atau Tanwin bertemu dengan huruf Lam (ل) atau Ra (ر). Cara membacanya dimasukkan penuh tanpa disertai dengung.",
+                ayat: "مِ<span class='highlight'>نْ رَ</span>بِّهِمْ",
+                audio: "idgham_bilaghunnah.mp3"
+            },
+            'iqlab': {
+                kategori: "Hukum Nun Mati & Tanwin",
+                judul: "Iqlab",
+                desc: "Terjadi apabila Nun Sukun (نْ) atau Tanwin bertemu dengan huruf Ba (ب). Cara membacanya suara nun berubah menjadi suara Mim (م) dan didengungkan.",
+                ayat: "مِ<span class='highlight'>نْ بَ</span>عْدِ",
+                audio: "iqlab.mp3"
+            },
+            'ikhfa': {
+                kategori: "Hukum Nun Mati & Tanwin",
+                judul: "Ikhfa Haqiqi",
+                desc: "Terjadi apabila Nun Sukun (نْ) atau Tanwin bertemu dengan 15 huruf sisa, yaitu: ت, ث, ج, د, ذ, ز, س, ش, ص, ض, ط, ظ, ف, ق, ك. Cara membacanya disamarkan antara izhar dan idgham, serta didengungkan.",
+                ayat: "مِ<span class='highlight'>نْ شَ</span>يْءٍ",
+                audio: "ikhfa_haqiqi.mp3"
+            },
+
+            // BAB: MIM MATI
+            'ikhfa-syafawi': {
+                kategori: "Hukum Mim Mati",
+                judul: "Ikhfa Syafawi",
+                desc: "Terjadi apabila Mim Sukun (مْ) bertemu dengan huruf Ba (ب). Cara membacanya disamarkan di bibir dan didengungkan.",
+                ayat: "تَرْمِيْهِ<span class='highlight'>مْ بِ</span>حِجَارَةٍ",
+                audio: "ikhfa_syafawi.mp3"
+            },
+            'idgham-mimi': {
+                kategori: "Hukum Mim Mati",
+                judul: "Idgham Mimi",
+                desc: "Terjadi apabila Mim Sukun (مْ) bertemu dengan huruf Mim (م). Cara membacanya dimasukkan ke mim kedua disertai dengung.",
+                ayat: "عَلَيْهِ<span class='highlight'>مْ مُ</span>ؤْصَدَةٌ",
+                audio: "idgham_mimi.mp3"
+            },
+            'izhar-syafawi': {
+                kategori: "Hukum Mim Mati",
+                judul: "Izhar Syafawi",
+                desc: "Terjadi apabila Mim Sukun (مْ) bertemu dengan semua huruf hijaiyah selain Mim dan Ba. Cara membacanya jelas di bibir tanpa dengung.",
+                ayat: "أَلَ<span class='highlight'>مْ تَ</span>رَ",
+                audio: "izhar_syafawi.mp3"
+            },
+
+            // BAB: QALQALAH
+            'qalqalah-sugra': {
+                kategori: "Hukum Qalqalah",
+                judul: "Qalqalah Sugra",
+                desc: "Pantulan suara yang kecil/ringan. Terjadi apabila huruf qalqalah (ق, ط, ب, ج, د) berharakat sukun (mati) asli di tengah kata.",
+                ayat: "يَ<span class='highlight'>قْ</span>طَعُونَ",
+                audio: "qalqalah_sugra.mp3"
+            },
+            'qalqalah-kubra': {
+                kategori: "Hukum Qalqalah",
+                judul: "Qalqalah Kubra",
+                desc: "Pantulan suara yang besar/kuat. Terjadi apabila huruf qalqalah (ق, ط, ب, ج, د) di akhir kata yang dimatikan (karena waqaf/berhenti).",
+                ayat: "مِنْ شَرِّ مَا خَلَ<span class='highlight'>قَ</span>",
+                audio: "qalqalah_kubra.mp3"
+            },
+
+            // BAB: ALIF LAM
+            'al-syamsiyah': {
+                kategori: "Hukum Alif Lam",
+                judul: "Alif Lam Syamsiyah",
+                desc: "Terjadi apabila Alif Lam (ال) bertemu dengan huruf-huruf Syamsiyah (ت ث د ذ ر ز س ش ص ض ط ظ ل ن). Alif lam tidak dibaca, melainkan suaranya dileburkan/dimasukkan ke huruf berikutnya.",
+                ayat: "مِنَ ا<span class='highlight'>لشَّ</span>يْطَانِ",
+                audio: "al_syamsiyah.mp3"
+            },
+            'al-qamariyah': {
+                kategori: "Hukum Alif Lam",
+                judul: "Alif Lam Qamariyah",
+                desc: "Terjadi apabila Alif Lam (ال) bertemu dengan huruf-huruf Qamariyah (ا ب ج ح خ ع غ ف ق ك م و ه ي). Alif lam dibaca dengan jelas (mati).",
+                ayat: "اَ<span class='highlight'>لْحَ</span>مْدُ لِلَّهِ",
+                audio: "al_qamariyah.mp3"
+            },
+            // BAB: GHUNNAH MUSYADDADAH
+            'ghunnah': {
+                kategori: "Ghunnah Musyaddadah",
+                judul: "Ghunnah Musyaddadah",
+                desc: "Terjadi apabila ada huruf Mim bertasydid (مّ) atau Nun bertasydid (نّ). Cara membacanya wajib didengungkan dengan menahan suara selama 2-3 harakat.",
+                ayat: "إِ<span class='highlight'>نَّ</span> الَّذِينَ",
+                audio: "ghunnah.mp3"
+            },
+
+            // BAB: HUKUM LAM JALALAH
+            'lam-tafkhim': {
+                kategori: "Hukum Lam Jalalah",
+                judul: "Lam Tafkhim (Tebal)",
+                desc: "Terjadi apabila lafaz Allah (الله) didahului oleh huruf berharakat Fathah atau Dhammah. Cara membacanya ditebalkan dengan mengangkat lidah.",
+                ayat: "شَهِدَ <span class='highlight'>اللَّهُ</span>",
+                audio: "lam_tafkhim.mp3"
+            },
+            'lam-tarqiq': {
+                kategori: "Hukum Lam Jalalah",
+                judul: "Lam Tarqiq (Tipis)",
+                desc: "Terjadi apabila lafaz Allah (الله) didahului oleh huruf berharakat Kasrah. Cara membacanya ditipiskan seperti huruf lam biasa.",
+                ayat: "بِسْمِ <span class='highlight'>اللَّهِ</span>",
+                audio: "lam_tarqiq.mp3"
+            },
+
+            // BAB: HUKUM RA
+            'ra-tafkhim': {
+                kategori: "Hukum Ra",
+                judul: "Ra Tafkhim (Tebal)",
+                desc: "Terjadi apabila huruf Ra berharakat Fathah, Dhammah, atau Ra Sukun yang didahului Fathah/Dhammah. Dibaca tebal.",
+                ayat: "<span class='highlight'>رَ</span>بَّنَا",
+                audio: "ra_tafkhim.mp3"
+            },
+            'ra-tarqiq': {
+                kategori: "Hukum Ra",
+                judul: "Ra Tarqiq (Tipis)",
+                desc: "Terjadi apabila huruf Ra berharakat Kasrah, atau Ra Sukun yang didahului Kasrah asli. Dibaca tipis.",
+                ayat: "<span class='highlight'>رِ</span>زْقًا",
+                audio: "ra_tarqiq.mp3"
+            },
+            // BAB: IDGHAM LANJUTAN
+            'idgham-mutamathilain': {
+                kategori: "Idgham Lanjutan",
+                judul: "Idgham Mutamathilain",
+                desc: "Pertemuan dua huruf yang sama makhraj dan sifatnya (seperti Ba dengan Ba). Huruf pertama sukun dan huruf kedua hidup. Dibaca dengan meleburkan huruf pertama ke huruf kedua.",
+                ayat: "اضْرِبْ <span class='highlight'>بِ</span>عَصَاكَ",
+                audio: "idgham_mutamathilain.mp3"
+            },
+            'idgham-mutaqaribain': {
+                kategori: "Idgham Lanjutan",
+                judul: "Idgham Mutaqaribain",
+                desc: "Pertemuan dua huruf yang berdekatan makhraj dan sifatnya. Misalnya Qaf (ق) sukun bertemu Kaf (ك). Dibaca dengan meleburkan huruf pertama ke huruf kedua.",
+                ayat: "أَلَمْ نَخْلُ<span class='highlight'>قْكُ</span>مْ",
+                audio: "idgham_mutaqaribain.mp3"
+            },
+            'idgham-mutajanisain': {
+                kategori: "Idgham Lanjutan",
+                judul: "Idgham Mutajanisain",
+                desc: "Pertemuan dua huruf yang sama makhrajnya namun beda sifatnya. Misalnya Ta (ت) sukun bertemu Tha (ط). Dibaca dengan meleburkan huruf pertama ke huruf kedua.",
+                ayat: "هَمَّ<span class='highlight'>تْ طَ</span>ائِفَةٌ",
+                audio: "idgham_mutajanisain.mp3"
+            },
+
+            // BAB: HUKUM MAD
+            'mad-thabii': {
+                kategori: "Hukum Mad",
+                judul: "Mad Thabi'i (Asli)",
+                desc: "Terjadi jika Fathah diikuti Alif, Kasrah diikuti Ya Sukun, atau Dhammah diikuti Waw Sukun. Cara membacanya dipanjangkan 2 harakat (1 alif).",
+                ayat: "بِـمَا <span class='highlight'>كَانُـوا</span>",
+                audio: "mad_thabii.mp3"
+            },
+            'mad-wajib-muttasil': {
+                kategori: "Hukum Mad",
+                judul: "Mad Wajib Muttasil",
+                desc: "Terjadi apabila Mad Thabi'i bertemu dengan huruf Hamzah (ء) dalam SATU kata. Wajib dibaca panjang 4 sampai 5 harakat.",
+                ayat: "إِذَا <span class='highlight'>جَاءَ</span>",
+                audio: "mad_wajib_muttasil.mp3"
+            },
+            'mad-jaiz-munfasil': {
+                kategori: "Hukum Mad",
+                judul: "Mad Jaiz Munfasil",
+                desc: "Terjadi apabila Mad Thabi'i bertemu dengan Hamzah (ء) atau Alif di BEDA kata. Boleh dibaca panjang 2, 4, atau 5 harakat.",
+                // Menyoroti huruf Mad (Alif) di akhir 'Inna' dan Hamzah di awal 'A'thaina'
+                ayat: "إِنَّ<span class='highlight'>ا أَعْ</span>طَيْنَاكَ",
+                audio: "mad_jaiz_munfasil.mp3"
+            },
+            'mad-aridl-lissukun': {
+                kategori: "Hukum Mad",
+                judul: "Mad Aridl Lissukun",
+                desc: "Terjadi apabila Mad Thabi'i bertemu dengan huruf hidup yang dimatikan karena waqaf (berhenti di akhir ayat). Dibaca panjang 2, 4, atau 6 harakat.",
+                ayat: "رَبِّ <span class='highlight'>الْعَالَمِينَ</span>",
+                audio: "mad_aridl_lissukun.mp3"
+            },
+            'mad-badal': {
+                kategori: "Hukum Mad",
+                judul: "Mad Badal",
+                desc: "Terjadi apabila huruf Hamzah (ء) mendahului huruf Mad (Alif, Waw, Ya). Terjadi pertukaran posisi dari aslinya. Dibaca panjang 2 harakat.",
+                ayat: "<span class='highlight'>آمَنُوا</span>",
+                audio: "mad_badal.mp3"
+            },
+            'mad-iwad': {
+                kategori: "Hukum Mad",
+                judul: "Mad Iwad",
+                desc: "Terjadi apabila huruf berharakat Fathatain ( ـً ) di akhir kata yang diwaqafkan (berhenti). Fathatain berubah menjadi Fathah panjang 2 harakat.",
+                ayat: "أَفْوَاجًا <span class='highlight'>=> أَفْوَاجَا</span>",
+                audio: "mad_iwad.mp3"
+            },
+            'mad-layyin': {
+                kategori: "Hukum Mad",
+                judul: "Mad Layyin (Lin)",
+                desc: "Terjadi apabila huruf berharakat Fathah diikuti Waw Sukun atau Ya Sukun, lalu waqaf (berhenti). Dibaca lembut dan panjang 2, 4, atau 6 harakat.",
+                ayat: "مِنْ <span class='highlight'>خَوْفٍ</span>",
+                audio: "mad_layyin.mp3"
+            },
+            'mad-lazim-muthaqqal': {
+                kategori: "Hukum Mad",
+                judul: "Mad Lazim Muthaqqal Kilmi",
+                desc: "Terjadi apabila Mad Thabi'i bertemu dengan huruf bertasydid dalam satu kata. Wajib dibaca sangat panjang yaitu 6 harakat, lalu ditekan ke huruf bertasydid.",
+                ayat: "وَلَا <span class='highlight'>الضَّالِّينَ</span>",
+                audio: "mad_lazim_muthaqqal.mp3"
+            },
+            // BAB: HUKUM MAD LANJUTAN
+            'mad-silah-qasirah': {
+                kategori: "Hukum Mad Lanjutan",
+                judul: "Mad Silah Qasirah",
+                desc: "Terjadi apabila ada huruf Ha Dhamir (ـه / ه) kata ganti orang ketiga tunggal, didahului huruf hidup dan setelahnya BUKAN huruf Hamzah. Dibaca panjang 2 harakat.",
+                ayat: "إِنَّ<span class='highlight'>هُ كَـ</span>انَ",
+                audio: "mad_silah_qasirah.mp3"
+            },
+            'mad-silah-thawilah': {
+                kategori: "Hukum Mad Lanjutan",
+                judul: "Mad Silah Thawilah",
+                desc: "Terjadi apabila huruf Ha Dhamir (ـه / ه) bertemu dengan huruf Hamzah (ء) hidup. Boleh dibaca panjang 4 atau 5 harakat.",
+                ayat: "مَالَهُ <span class='highlight'>أَ</span>خْلَدَهُ",
+                audio: "mad_silah_thawilah.mp3"
+            },
+            'mad-tamkin': {
+                kategori: "Hukum Mad Lanjutan",
+                judul: "Mad Tamkin",
+                desc: "Terjadi apabila ada dua huruf Ya (ي) bertemu, Ya pertama berharakat Kasrah dan Bertasydid, sedangkan Ya kedua bersukun (mati). Dibaca panjang 2 harakat dengan penekanan tasydid.",
+                ayat: "النَّبِ<span class='highlight'>يِّـيْـ</span>نَ",
+                audio: "mad_tamkin.mp3"
+            },
+            'mad-farq': {
+                kategori: "Hukum Mad Lanjutan",
+                judul: "Mad Farq",
+                desc: "Mad yang berfungsi membedakan antara kalimat tanya dan pernyataan. Terjadi jika Mad Badal bertemu huruf bertasydid. Wajib dibaca panjang 6 harakat. Di Al-Qur'an hanya ada di beberapa tempat (misal: Al-An'am 143).",
+                ayat: "قُلْ <span class='highlight'>آلذَّ</span>كَرَيْنِ",
+                audio: "mad_farq.mp3"
+            },
+            'mad-lazim-mukhaffaf-kilmi': {
+                kategori: "Hukum Mad Lanjutan",
+                judul: "Mad Lazim Mukhaffaf Kilmi",
+                desc: "Terjadi apabila Mad Thabi'i bertemu dengan huruf sukun dalam satu kata. Dibaca panjang 6 harakat. Dalam Al-Qur'an hanya terdapat pada Surah Yunus ayat 51 dan 91.",
+                ayat: "<span class='highlight'>آلْ</span>آنَ",
+                audio: "mad_lazim_mukhaffaf_kilmi.mp3"
+            },
+            'mad-lazim-muthaqqal-harfi': {
+                kategori: "Hukum Mad Lanjutan",
+                judul: "Mad Lazim Muthaqqal Harfi",
+                desc: "Terdapat pada huruf-huruf tunggal pembuka surah (Fawatihussuwar). Terjadi saat ejaan hurufnya menghasilkan mad yang bertemu huruf bertasydid/di-idgham-kan. Dibaca 6 harakat.",
+                ayat: "<span class='highlight'>الٓمٓ</span>",
+                audio: "mad_lazim_muthaqqal_harfi.mp3"
+            },
+            'mad-lazim-mukhaffaf-harfi': {
+                kategori: "Hukum Mad Lanjutan",
+                judul: "Mad Lazim Mukhaffaf Harfi",
+                desc: "Terdapat pada huruf-huruf tunggal pembuka surah. Terjadi saat ejaan hurufnya menghasilkan mad yang bertemu sukun (tanpa tasydid/idgham). Dibaca panjang 6 harakat.",
+                ayat: "<span class='highlight'>نٓ ۚ</span> وَالْقَلَمِ",
+                audio: "mad_lazim_mukhaffaf_harfi.mp3"
+            }
+            
+        };
+
+        // Fungsi memuat data saat tombol di klik
+        function loadData(id, element) {
+            // Hilangkan kartu welcome
+            document.getElementById('welcome-state').style.display = 'none';
+            
+            // Tampilkan kartu konten dengan animasi ulang
+            const contentCard = document.getElementById('content-state');
+            contentCard.style.display = 'block';
+            contentCard.style.animation = 'none';
+            contentCard.offsetHeight; // Trigger reflow
+            contentCard.style.animation = 'slideUp 0.4s ease forwards';
+
+            // Ubah gaya tombol aktif
+            const buttons = document.querySelectorAll('.nav-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            element.classList.add('active');
+
+            // Ambil data dari object tajwidData
+            const data = tajwidData[id];
+
+            // Masukkan data ke HTML
+            document.getElementById('content-tag').innerText = data.kategori;
+            document.getElementById('content-title').innerText = data.judul;
+            document.getElementById('content-desc').innerText = data.desc;
+            document.getElementById('content-ayat').innerHTML = data.ayat;
+
+            // Load file audio
+            const audioPlayer = document.getElementById('audio-player');
+            const audioSource = document.getElementById('audio-source');
+            audioSource.src = data.audio;
+            audioPlayer.load();
+        }
+    </script>
+</body>
+</html>
